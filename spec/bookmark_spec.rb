@@ -1,20 +1,18 @@
-require 'bookmark'
+require 'pg'
 
-describe Bookmark do
-  
-  it 'initializes with a name and url' do
-    bookmark = Bookmark.new('BBC', 'https://bbc.co.uk/')
-    expect(bookmark.name).to eq('BBC')
-    expect(bookmark.url).to eq('https://bbc.co.uk/')
+feature 'Viewing bookmarks' do
+  scenario 'A user can see bookmarks' do
+    connection = PG.connect(dbname: 'bookmark_manager_test')
+
+    # Add the test data
+    connection.exec("INSERT INTO bookmarks VALUES(1, 'http://www.makersacademy.com');")
+    connection.exec("INSERT INTO bookmarks VALUES(2, 'http://www.destroyallsoftware.com');")
+    connection.exec("INSERT INTO bookmarks VALUES(3, 'http://www.google.com');")
+
+    visit('/bookmarks')
+
+    expect(page).to have_content "http://www.makersacademy.com"
+    expect(page).to have_content "http://www.destroyallsoftware.com"
+    expect(page).to have_content "http://www.google.com"
   end
-
-  describe '.all' do 
-    it 'returns all bookmarks' do
-      bookmarks = Bookmark.all
-      expect(bookmarks).to include("http://www.makersacademy.com")
-      expect(bookmarks).to include("http://www.destroyallsoftware.com")
-      expect(bookmarks).to include("http://www.google.com")
-    end
-  end
-
 end
