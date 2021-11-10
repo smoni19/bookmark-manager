@@ -1,12 +1,27 @@
 <style>
   body {background-color: #888888; font-family: "Lucida Console", "Courier New", monospace;}
-  a {color: #AAFFFF;}
+  a {color: #AAFFFF; padding:3px}
   a:hover {color: #FFAAFF; background: #AAFFFF; font-weight: bold}
   ul {list-style-type: none;}
+  li {margin: 3px;}
+  input
+   {background-color: #FFAAFF;
+    border: none;
+    color: #AAFFFF;
+    font-weight: bold;
+    font-size: 20px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    padding: 3px;
+    text-decoration: none;}
 </style>
 
+<form action="/bookmarks" method="post">
+  <input type="text" name="bookmark_url"/>
+  <input type="submit" value="Save"/>
+</form>
+
 <ul>
-  <% @bookmarks.each do |bookmark| %>
+  <% bookmarks.each do |bookmark| %>
     <li><a href="<%= bookmark %>"><%= bookmark %></a></li>
   <% end %>
 </ul>
